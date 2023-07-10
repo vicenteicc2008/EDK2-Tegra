@@ -71,7 +71,7 @@ done
 
 [ -n "${_EDK2}" ]||_error "EDK2 not Found!"
 export CROSS_COMPILE="${CROSS_COMPILE:-arm-linux-gnueabihf-}"
-export CLANG38_ARM_PREFIX="${CROSS_COMPILE}"
+export GCC5_ARM_PREFIX="${CROSS_COMPILE}"
 export PACKAGES_PATH="$_EDK2:$PWD:$PWD/Platforms"
 export WORKSPACE="${PWD}/workspace"
 
@@ -93,7 +93,7 @@ build \
 	-s \
 	-n 0 \
 	-a ARM \
-	-t CLANG38 \
+	-t GCC5 \
 	-p "./Platforms/${SOC_PLATFORM}Pkg/${SOC_PLATFORM}.dsc" \
 	-b "${_TARGET_BUILD_MODE}" \
 	-D TARGET_DEVICE="${TARGET_DEVICE}" \
@@ -103,4 +103,4 @@ build \
 	||exit 1
 
 #cat ./BootShim/BootShim.bin "./workspace/Build/Tegra30Pkg/${_TARGET_BUILD_MODE}_CLANG38/FV/TEGRA30PKG_UEFI.fd" > "./edk2-${TARGET_DEVICE}.fd" ||exit 1
-cp "./workspace/Build/${SOC_PLATFORM}Pkg/${_TARGET_BUILD_MODE}_CLANG38/FV/NVIDIAPKG_UEFI.fd" "./edk2-${TARGET_DEVICE}.fd"
+cp "./workspace/Build/${SOC_PLATFORM}Pkg/${_TARGET_BUILD_MODE}_GCC5/FV/NVIDIAPKG_UEFI.fd" "./edk2-${TARGET_DEVICE}.fd"
