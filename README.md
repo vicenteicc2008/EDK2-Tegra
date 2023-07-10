@@ -1,4 +1,4 @@
-# [EDK2](https://microsoft.github.io/mu/) UEFI Implementation for Nvidia Tegra Devices
+# [EDK2](https://github.com/tianocore/tianocore.github.io/wiki/EDK-II) UEFI Implementation for Nvidia Tegra Devices
 
 <!-- ![Banner](https://github.com/Robotix22/edk2-Tegra/blob/main/Pictures/Banner.png) -->
 
