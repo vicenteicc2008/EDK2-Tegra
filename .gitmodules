@@ -1,0 +1,6 @@
+[submodule "Common/edk2"]
+	path = Common/edk2
+	url = https://github.com/tianocore/edk2.git
+[submodule "Platforms/Binaries"]
+	path = Platforms/Binaries
+	url = https://github.com/Robotix22/Device-Binaries.git
