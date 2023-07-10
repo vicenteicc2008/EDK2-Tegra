@@ -1,0 +1,71 @@
+#/** @file
+#
+#
+#  Copyright (c) DuoWoA authors. All rights reserved.
+#  Copyright (c) Renegade Project. All rights reserved.
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = Sec
+  FILE_GUID                      = 6D98FDC6-F52F-4ABD-87A3-6300A8CE0967
+  MODULE_TYPE                    = SEC
+  VERSION_STRING                 = 1.0
+
+[Sources.common]
+  Pi.c
+
+[Sources.Arm]
+  Arm/ModuleEntryPoint.S | GCC
+
+[BuildOptions.Arm]
+  GCC:*_*_*_CC_FLAGS = -Werror -Wno-error=unused-function
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  NvidiaPkg/Nvidia.dec
+
+[LibraryClasses]
+  ArmLib
+  BaseLib
+  CacheMaintenanceLib
+  DebugLib
+  ExtractGuidedSectionLib
+  HobLib
+  IoLib
+  LzmaDecompressLib
+  MemoryAllocationLib
+  MemoryInitPeiLib
+  PlatformPeiLib
+  PlatformPrePiLib
+  PrePiHobListPointerLib
+  PrePiLib
+
+[Guids]
+  gEfiSystemNvDataFvGuid
+  gEfiVariableGuid
+  gEfiFirmwarePerformanceGuid
+
+[FeaturePcd]
+  gEmbeddedTokenSpaceGuid.PcdPrePiProduceMemoryTypeInformationHob
+
+[Pcd]
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVersionString
+
+[FixedPcd]
+  gArmTokenSpaceGuid.PcdSystemMemoryBase
+  gArmTokenSpaceGuid.PcdSystemMemorySize
+  gArmTokenSpaceGuid.PcdCpuVectorBaseAddress
+  gArmTokenSpaceGuid.PcdFdBaseAddress
+  gArmTokenSpaceGuid.PcdFdSize
+  gEmbeddedTokenSpaceGuid.PcdPrePiStackBase
+  gEmbeddedTokenSpaceGuid.PcdPrePiStackSize
+  gEmbeddedTokenSpaceGuid.PcdPrePiCpuIoSize
+  gNvidiaTokenSpaceGuid.PcdUefiMemPoolBase
+  gNvidiaTokenSpaceGuid.PcdUefiMemPoolSize
