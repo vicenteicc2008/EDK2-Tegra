@@ -1,6 +1,6 @@
 /** @file
  *
- *  Static SMBIOS Table for the Qualcomm SDM845 Platform
+ *  Static SMBIOS Table for Tegra 3 Platform
  *  Derived from EmulatorPkg package
  *
  *  Copyright (c) 2017-2018, Andrey Warkentin <andrey.warkentin@gmail.com>
@@ -103,14 +103,10 @@ SMBIOS_TABLE_TYPE0 mBIOSInfoType0 = {
     0xFF, // EmbeddedControllerFirmwareMinorRelease
 };
 
-CHAR8 mBiosVendor[128]  = "Robotix22";
-CHAR8 mBiosVersion[128] = "1.0";
-CHAR8 mBiosDate[12]     = __DATE__;
-
 CHAR8 *mBIOSInfoType0Strings[] = {
-    mBiosVendor,  // Vendor
-    mBiosVersion, // Version
-    mBiosDate,    // Release Date
+    "Not Specified", // Vendor
+    "Not Specified", // Version
+    __DATE__,        // Release Date
     NULL};
 
 /***********************************************************************
@@ -296,7 +292,6 @@ CHAR8 *mProcessorInfoType4Strings[] = {
 /***********************************************************************
         SMBIOS data definition  TYPE7  Cache Information
 ************************************************************************/
-
 SMBIOS_TABLE_TYPE7 mCacheInfoType7_L1 = {
     {EFI_SMBIOS_TYPE_CACHE_INFORMATION, sizeof(SMBIOS_TABLE_TYPE7), 0},
     1,     // SocketDesignation String
@@ -337,7 +332,6 @@ SMBIOS_TABLE_TYPE7 mCacheInfoType7_L1 = {
     CacheTypeInstruction,  // System Cache Type
     CacheAssociativity2Way // Associativity
 };
-CHAR8 *mCacheInfoType7Strings[] = {"L1 Instruction", "L1 Data", "L2", NULL};
 
 SMBIOS_TABLE_TYPE7 mCacheInfoType7_L2 = {
     {EFI_SMBIOS_TYPE_CACHE_INFORMATION, sizeof(SMBIOS_TABLE_TYPE7), 0},
@@ -379,16 +373,7 @@ SMBIOS_TABLE_TYPE7 mCacheInfoType7_L2 = {
     CacheTypeUnified,       // System Cache Type
     CacheAssociativity16Way // Associativity
 };
-
-/***********************************************************************
-        SMBIOS data definition  TYPE 11  OEM Strings
-************************************************************************/
-SMBIOS_TABLE_TYPE11 mOemStringsType11 = {
-    {EFI_SMBIOS_TYPE_OEM_STRINGS, sizeof(SMBIOS_TABLE_TYPE11), 0},
-    1 // StringCount
-};
-CHAR8 *mOemStringsType11Strings[] = {
-    "https://github.com/Robotix22/edk2-tegra30", NULL};
+CHAR8 *mCacheInfoType7Strings[] = {"L1 Instruction", "L1 Data", "L2", NULL};
 
 /***********************************************************************
         SMBIOS data definition  TYPE16  Physical Memory ArrayInformation
@@ -406,7 +391,7 @@ SMBIOS_TABLE_TYPE16 mPhyMemArrayInfoType16 = {
     0x800000,                       // MaximumCapacity;
     0xFFFE,                         // MemoryErrorInformationHandle;
     1,                              // NumberOfMemoryDevices;
-    0x00000000ULL,                  // ExtendedMaximumCapacity;
+    FixedPcdGet64(PcdSystemMemorySize) // ExtendedMaximumCapacity;
 };
 CHAR8 *mPhyMemArrayInfoType16Strings[] = {NULL};
 
@@ -448,7 +433,7 @@ SMBIOS_TABLE_TYPE17 mMemDevInfoType17 = {
         0, // Unbuffered      :1;
         0, // Reserved1       :1;
     },
-    1600, // Speed;
+    1500, // Speed;
     2,    // Manufacturer String
     3,    // SerialNumber String
     4,    // AssetTag String
@@ -458,8 +443,7 @@ SMBIOS_TABLE_TYPE17 mMemDevInfoType17 = {
     0,    // ConfiguredMemoryClockSpeed;
 };
 
-CHAR8 *mMemDevInfoType17Strings[] = {
-    "Builtin", "BANK 0", NULL};
+CHAR8 *mMemDevInfoType17Strings[] = {"Builtin", "BANK 0", NULL};
 
 /***********************************************************************
         SMBIOS data definition  TYPE19  Memory Array Mapped Address Information
@@ -476,17 +460,6 @@ SMBIOS_TABLE_TYPE19 mMemArrMapInfoType19 = {
     0, // ExtendedEndingAddress;    // not used
 };
 CHAR8 *mMemArrMapInfoType19Strings[] = {NULL};
-
-/***********************************************************************
-        SMBIOS data definition  TYPE32  Boot Information
-************************************************************************/
-SMBIOS_TABLE_TYPE32 mBootInfoType32 = {
-    {EFI_SMBIOS_TYPE_SYSTEM_BOOT_INFORMATION, sizeof(SMBIOS_TABLE_TYPE32), 0},
-    {0, 0, 0, 0, 0, 0},          // Reserved[6];
-    BootInformationStatusNoError // BootStatus
-};
-
-CHAR8 *mBootInfoType32Strings[] = {NULL};
 
 /**
 
@@ -599,6 +572,10 @@ LogSmbiosData(
 ************************************************************************/
 VOID BIOSInfoUpdateSmbiosType0(VOID)
 {
+  // Update string table before proceeds
+  mBIOSInfoType0Strings[0] = (CHAR8 *)FixedPcdGetPtr(PcdFirmwareVendor);
+  mBIOSInfoType0Strings[1] = (CHAR8 *)FixedPcdGetPtr(PcdFirmwareVersionString);
+
   LogSmbiosData(
       (EFI_SMBIOS_TABLE_HEADER *)&mBIOSInfoType0, mBIOSInfoType0Strings, NULL);
 }
@@ -688,16 +665,6 @@ VOID CacheInfoUpdateSmbiosType7(VOID)
 }
 
 /***********************************************************************
-        SMBIOS data update  TYPE11  OEM Strings
-************************************************************************/
-VOID OEMStringsUpdateSmbiosType11(VOID)
-{
-  LogSmbiosData(
-      (EFI_SMBIOS_TABLE_HEADER *)&mOemStringsType11, mOemStringsType11Strings,
-      NULL);
-}
-
-/***********************************************************************
         SMBIOS data update  TYPE16  Physical Memory Array Information
 ************************************************************************/
 VOID PhyMemArrayInfoUpdateSmbiosType16(VOID)
@@ -744,16 +711,6 @@ VOID MemArrMapInfoUpdateSmbiosType19(VOID)
 }
 
 /***********************************************************************
-        SMBIOS data update  TYPE32  Boot Information
-************************************************************************/
-VOID BootInfoUpdateSmbiosType32(VOID)
-{
-  LogSmbiosData(
-      (EFI_SMBIOS_TABLE_HEADER *)&mBootInfoType32, mBootInfoType32Strings,
-      NULL);
-}
-
-/***********************************************************************
         Driver Entry
 ************************************************************************/
 EFI_STATUS
@@ -767,11 +724,9 @@ PlatformSmbiosDriverEntryPoint(
   EnclosureInfoUpdateSmbiosType3();
   ProcessorInfoUpdateSmbiosType4();
   CacheInfoUpdateSmbiosType7();
-  OEMStringsUpdateSmbiosType11();
   PhyMemArrayInfoUpdateSmbiosType16();
   MemDevInfoUpdateSmbiosType17();
   MemArrMapInfoUpdateSmbiosType19();
-  BootInfoUpdateSmbiosType32();
 
   return EFI_SUCCESS;
 }

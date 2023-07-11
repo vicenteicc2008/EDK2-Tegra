@@ -49,7 +49,7 @@
 [FixedPcd]
   gArmTokenSpaceGuid.PcdSystemMemoryBase
   gArmTokenSpaceGuid.PcdSystemMemorySize
-  gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareRevision
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVendor
   gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVersionString
   gNvidiaTokenSpaceGuid.PcdSmbiosSystemModel
   gNvidiaTokenSpaceGuid.PcdSmbiosSystemVendor
