@@ -10,7 +10,7 @@
 
 ## [Building](https://github.com/Robotix22/edk2-Tegra/blob/main/Building.md)
 
-## [Guides](https://github.com/Robotix22/UEFI-Guides/blob/main/EDK2-Tegra/EDK2-Tegra.md)
+## [Guides](https://github.com/Robotix22/UEFI-Guides/blob/main/EDK2-Tegra/README.md)
 
 ## Credits
 
