@@ -40,13 +40,9 @@ if [ -z ${TARGET_DEVICE} ]; then
 	_help
 fi
 
-if [ -f "configs/devices/${TARGET_DEVICE}.conf" ]
-then source "configs/devices/${TARGET_DEVICE}.conf"
+if [ -f "configs/${TARGET_DEVICE}.conf" ]
+then source "configs/${TARGET_DEVICE}.conf"
 else _error "Device configuration not found"
-fi
-if [ -f "configs/${SOC_PLATFORM}.conf" ]
-then source "configs/${SOC_PLATFORM}.conf"
-else _error "SoC configuration not found"
 fi
 
 git fetch &> /dev/null
@@ -72,18 +68,10 @@ done
 [ -n "${_EDK2}" ]||_error "EDK2 not Found!"
 export CROSS_COMPILE="${CROSS_COMPILE:-arm-linux-gnueabihf-}"
 export GCC5_ARM_PREFIX="${CROSS_COMPILE}"
-export PACKAGES_PATH="$_EDK2:$PWD:$PWD/Platforms"
+export PACKAGES_PATH="$_EDK2:$PWD/Platforms/Nvidia:$PWD/Platforms/${TARGET_DEVICE_VENDOR}"
 export WORKSPACE="${PWD}/workspace"
 
-#rm ./BootShim/BootShim.bin
-#rm ./BootShim/BootShim.elf
 rm edk2-${TARGET_DEVICE}.fd
-
-#cd BootShim
-
-#make UEFI_BASE=${FD_BASE} UEFI_SIZE=${FD_SIZE}||exit 1
-
-#cd ..
 
 source "${_EDK2}/edksetup.sh"
 [ -d "${WORKSPACE}" ]||mkdir "${WORKSPACE}"
@@ -94,13 +82,8 @@ build \
 	-n 0 \
 	-a ARM \
 	-t GCC5 \
-	-p "./Platforms/${SOC_PLATFORM}Pkg/${SOC_PLATFORM}.dsc" \
+	-p "${PWD}/Platforms/${TARGET_DEVICE_VENDOR}/${TARGET_DEVICE}Pkg/${TARGET_DEVICE}.dsc" \
 	-b "${_TARGET_BUILD_MODE}" \
-	-D TARGET_DEVICE="${TARGET_DEVICE}" \
-	-D FD_BASE="${FD_BASE}" \
-	-D FD_SIZE="${FD_SIZE}" \
-	-D FD_BLOCKS="${FD_BLOCKS}" \
 	||exit 1
 
-#cat ./BootShim/BootShim.bin "./workspace/Build/Tegra30Pkg/${_TARGET_BUILD_MODE}_CLANG38/FV/TEGRA30PKG_UEFI.fd" > "./edk2-${TARGET_DEVICE}.fd" ||exit 1
-cp "./workspace/Build/${SOC_PLATFORM}Pkg/${_TARGET_BUILD_MODE}_GCC5/FV/NVIDIAPKG_UEFI.fd" "./edk2-${TARGET_DEVICE}.fd"
+cp "./workspace/Build/${TARGET_DEVICE}Pkg/${_TARGET_BUILD_MODE}_GCC5/FV/${TARGET_DEVICE^^}_UEFI.fd" "./edk2-${TARGET_DEVICE}.fd"

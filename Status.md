@@ -11,7 +11,7 @@
 <img align="right" src="https://github.com/Robotix22/EDK2-Tegra/blob/main/Pictures/Lenovo-IdeaPad-Yoga-11.png" width="500" alt="Preview">
 
 **SoC: Tegra 3** <br />
-**Codename: lipy11** <br />
+**Codename: Venus** <br />
 **Maintainer: [Robotix22](https://github.com/Robotix22/)** <br />
 **Contibuters: None** <br />
 **Tester: [Robotix22](https://github.com/Robotix22/)**
@@ -22,6 +22,7 @@
 |:------|:----------|:---:|
 |Display||❔|
 |Touchscreen||❔|
+|Mouse Pad||❔|
 |eMMC||❔|
 |Buttons||❔|
 |USB||❔|

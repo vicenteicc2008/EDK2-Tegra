@@ -1,0 +1,30 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = EarlyDisplayInitLib
+  FILE_GUID                      = 2FDF4E63-5AD5-4385-A729-868019B45A99
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = EarlyDisplayInitLib
+
+[Sources]
+  EarlyDisplayInitLib.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  NvidiaPkg/Nvidia.dec
+  Tegra30Pkg/Tegra30.dec
+  VenusPkg/Venus.dec
+
+[LibraryClasses]
+  ArmLib
+  PcdLib
+  BaseMemoryLib
+  DebugLib
+  IoLib
+  MemoryMapHelperLib
+
+[Pcd]
+  gNvidiaTokenSpaceGuid.PcdMipiFrameBufferWidth
+  gNvidiaTokenSpaceGuid.PcdMipiFrameBufferHeight
+  gNvidiaTokenSpaceGuid.PcdMipiFrameBufferPixelBpp

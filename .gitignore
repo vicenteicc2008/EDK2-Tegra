@@ -1,4 +1,2 @@
-BootShim/BootShim.bin
-BootShim/BootShim.elf
 workspace/
 edk2-*.fd

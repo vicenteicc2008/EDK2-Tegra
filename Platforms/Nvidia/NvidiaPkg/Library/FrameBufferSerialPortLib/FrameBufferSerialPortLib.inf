@@ -1,0 +1,43 @@
+## @file
+#
+# Copyright (c) DuoWoA authors. All rights reserved.
+#
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION    = 0x00010005
+  FILE_GUID      = 33220897-2430-1CD5-EA89-CB01B138CF39
+  BASE_NAME      = FrameBufferSerialPortLib
+  MODULE_TYPE    = BASE
+  VERSION_STRING = 1.1
+  LIBRARY_CLASS  = SerialPortLib
+
+[BuildOptions.Arm]
+  GCC:*_*_*_CC_FLAGS = -Wno-int-to-pointer-cast
+
+[Sources.common]
+  FrameBufferSerialPortLib.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  NvidiaPkg/Nvidia.dec
+
+[LibraryClasses]
+  ArmLib
+  PcdLib
+  IoLib
+  HobLib
+  CompilerIntrinsicsLib
+  CacheMaintenanceLib
+  MemoryMapHelperLib
+  EarlyDisplayInitLib
+  TimerLib
+
+[Pcd]
+  gNvidiaTokenSpaceGuid.PcdMipiFrameBufferWidth
+  gNvidiaTokenSpaceGuid.PcdMipiFrameBufferHeight
+  gNvidiaTokenSpaceGuid.PcdMipiFrameBufferPixelBpp
+  gNvidiaTokenSpaceGuid.PcdMipiFrameBufferDelay
