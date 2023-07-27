@@ -14,7 +14,7 @@
 
 ## Credits
 
-This repo is based on [edk2-msm](https://github.com/edk2-porting/edk2-msm) wich is maintained by the People of [Renegade Project](https://github.com/edk2-porting)
+This repo is based on [edk2-msm](https://github.com/edk2-porting/edk2-msm) wich is maintained by the People of [Renegade Project](https://github.com/edk2-porting) <br />
 Some Tegra Specific Reverence took from [NintendoSwitchPkg](https://github.com/imbushuo/NintendoSwitchPkg) wich was made by [Bingxing Wang](https://github.com/imbushuo)
 
 ## License
